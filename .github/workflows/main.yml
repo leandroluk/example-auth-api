@@ -1,51 +1,27 @@
-name: Node.js CI
-
 on: [push]
 
 jobs:
-  build:
+  install_dependencies:
     runs-on: ubuntu-latest
-#   strategy:
-#     matrix:
-#       node-version: [16.x, 17.x, 18.x, 19.x]
+    outputs:
+      node_modules: "./node_modules/*"
     steps:
       - uses: actions/checkout@v3
-        
       - uses: actions/setup-node@v3
-        name: Use Node.js ${{ matrix.node-version }}
-        with:
-          node-version: ${{ matrix.node-version }}
-      
-      - name: Install Dependencies and jest-badges
-        run: |
-          npm install
+      - run: npm install
+
+  tests:
+    runs-on: ubuntu-latest
+    outputs:
+      coverage: "./.coverage/*"
+    steps:
+      - run: npm run test:ci
+          
+  badges:
+    runs-on: ubuntu-latest
+    outputs:
+      badges: "./badge-*.svg"
+    steps:
+      - run: |
           npm install jest-coverage-badges
-
-      - name: Run tests and output badges
-        run: |
-          npm run test:ci
-          npx jest-coverage-badges input "./.coverage/coverage-summary.json" output ".public"  
-      
-      - name: Upload branches badge
-        uses: actions/upload-artifact@v3
-        with:
-          name: badge-branches.svg
-          path: .public/badge-branches.svg
-
-      - name: Upload functions badge
-        uses: actions/upload-artifact@v3
-        with:
-          name: badge-functions.svg
-          path: .public/badge-functions.svg
-
-      - name: Upload lines badge
-        uses: actions/upload-artifact@v3
-        with:
-          name: badge-lines.svg
-          path: .public/badge-lines.svg
-
-      - name: Upload statements badge
-        uses: actions/upload-artifact@v3
-        with:
-          name: badge-statements.svg
-          path: .public/badge-statements.svg
+          npx jest-coverage-badges input "./.coverage/coverage-summary.json" output "."  
