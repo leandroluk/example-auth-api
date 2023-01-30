@@ -1,27 +1,15 @@
 on: [push]
 
 jobs:
-  install_dependencies:
-    runs-on: ubuntu-latest
-    outputs:
-      node_modules: "./node_modules/*"
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: npm install
-
-  tests:
-    runs-on: ubuntu-latest
-    outputs:
-      coverage: "./.coverage/*"
-    steps:
-      - run: npm run test:ci
-          
-  badges:
+  run_tests:
     runs-on: ubuntu-latest
     outputs:
       badges: "./badge-*.svg"
     steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npm install
+      - run: npm run test:ci
       - run: |
           npm install jest-coverage-badges
           npx jest-coverage-badges input "./.coverage/coverage-summary.json" output "."  
