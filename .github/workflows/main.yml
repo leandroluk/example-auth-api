@@ -1,13 +1,8 @@
-name: Node.js CI
-
 on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-#   strategy:
-#     matrix:
-#       node-version: [16.x, 17.x, 18.x, 19.x]
     steps:
       - uses: actions/checkout@v3
         
@@ -24,28 +19,28 @@ jobs:
       - name: Run tests and output badges
         run: |
           npm run test:ci
-          npx jest-coverage-badges input "./.coverage/coverage-summary.json" output ".public"  
+          npx jest-coverage-badges input "./.coverage/coverage-summary.json" output "."  
       
       - name: Upload branches badge
         uses: actions/upload-artifact@v3
         with:
           name: badge-branches.svg
-          path: .public/badge-branches.svg
+          path: badge-branches.svg
 
       - name: Upload functions badge
         uses: actions/upload-artifact@v3
         with:
           name: badge-functions.svg
-          path: .public/badge-functions.svg
+          path: badge-functions.svg
 
       - name: Upload lines badge
         uses: actions/upload-artifact@v3
         with:
           name: badge-lines.svg
-          path: .public/badge-lines.svg
+          path: badge-lines.svg
 
       - name: Upload statements badge
         uses: actions/upload-artifact@v3
         with:
           name: badge-statements.svg
-          path: .public/badge-statements.svg
+          path: badge-statements.svg
