@@ -5,9 +5,9 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
+#   strategy:
+#     matrix:
+#       node-version: [16.x, 17.x, 18.x, 19.x]
     steps:
       - uses: actions/checkout@v3
         
@@ -26,12 +26,8 @@ jobs:
           npm run test:ci
           npx jest-coverage-badges input "./.coverage/coverage-summary.json" output ".public"  
       
-      - name: Archive production artifacts
+      - name: Upload Badges
         uses: actions/upload-artifact@v3
         with:
-          name: coverage-badges
-          path: |
-            .public/badge-branches.svg
-            .public/badge-functions.svg
-            .public/badge-lines.svg
-            .public/badge-statements.svg
+          name: badges
+          path: ~/.public/badge-*.svg
