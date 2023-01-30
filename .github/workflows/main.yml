@@ -1,0 +1,39 @@
+name: Node.js CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 17.x, 18.x, 19.x]
+    steps:
+      - uses: actions/checkout@v3
+        
+      - uses: actions/setup-node@v3
+        name: Use Node.js ${{ matrix.node-version }}
+        with:
+          node-version: ${{ matrix.node-version }}
+      
+      - name: Install Dependencies and jest-badges
+        run: |
+          npm install
+          npm install jest-coverage-badges
+
+      - name: Run tests and output badges
+        run: |
+          npm test:ci
+          npx jest-coverage-badges input "./.coverage/coverage-summary.json" output "./.public"  
+      
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-badges
+          path: |
+            "./.public/badge-branches.svg"
+            "./.public/badge-functions.svg"
+            "./.public/badge-lines.svg"
+            "./.public/badge-statements.svg"
