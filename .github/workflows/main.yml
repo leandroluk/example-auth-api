@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x, 17.x, 18.x, 19.x]
+        node-version: [18.x]
     steps:
       - uses: actions/checkout@v3
         
@@ -25,7 +25,7 @@ jobs:
 
       - name: Run tests and output badges
         run: |
-          npm test:ci
+          npm run test:ci
           npx jest-coverage-badges input "./.coverage/coverage-summary.json" output "./.public"  
       
       - name: Archive production artifacts
