@@ -1,0 +1,41 @@
+version: '3'
+
+networks:
+  api-auth-caas-2.0:
+    name: api-auth-caas-2.0
+
+services:
+  postgres:
+    platform: linux/amd64
+    image: postgres
+    hostname: postgres
+    networks: [ api-auth-caas-2.0 ]
+    container_name: api-auth-caas-2.0-postgres
+    ports: [ 5432:5432 ]
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+  liquibase:
+    platform: linux/amd64
+    image: liquibase/liquibase
+    hostname: liquibase
+    networks: [ api-auth-caas-2.0 ]
+    container_name: api-auth-caas-2.0-liquibase
+    depends_on: [ postgres ]
+    volumes: [ ./db:/liquibase/changelog ]
+    command: "bash -c 'liquibase \
+                       --url=jdbc:postgresql://postgres:5432/postgres \
+                       --searchPath=/liquibase/changelog \
+                       --changeLogFile=changelog.xml \
+                       --username=postgres \
+                       --password=postgres \
+                       --databaseChangeLogTableName=_changelog \
+                       --databaseChangeLogLockTableName=_changelog_lock \
+                       update'"
+

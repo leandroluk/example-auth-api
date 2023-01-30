@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2021",
+    "module": "commonjs",
+    "baseUrl": "./",
+    "paths": {
+      "$/*": [
+        "./src/*"
+      ]
+    },
+    "resolveJsonModule": true,
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strictNullChecks": false
+  },
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register",
+      "dotenv/config",
+      "polyfill-json-stringify-omit-null-value"
+    ]
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "/node_modules/*",
+    "/dist/*"
+  ]
+}
