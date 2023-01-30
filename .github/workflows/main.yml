@@ -30,4 +30,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: badges
-          path: ~/.public/badge-*.svg
+          path: .public/badge-*.svg
+          if-no-files-found: error
