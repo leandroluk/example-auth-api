@@ -26,9 +26,26 @@ jobs:
           npm run test:ci
           npx jest-coverage-badges input "./.coverage/coverage-summary.json" output ".public"  
       
-      - name: Upload Badges
+      - name: Upload branches badge
         uses: actions/upload-artifact@v3
         with:
-          name: badges
-          path: .public/badge-*.svg
-          if-no-files-found: error
+          name: badge-branches.svg
+          path: .public/badge-branches.svg
+
+      - name: Upload functions badge
+        uses: actions/upload-artifact@v3
+        with:
+          name: badge-functions.svg
+          path: .public/badge-functions.svg
+
+      - name: Upload lines badge
+        uses: actions/upload-artifact@v3
+        with:
+          name: badge-lines.svg
+          path: .public/badge-lines.svg
+
+      - name: Upload statements badge
+        uses: actions/upload-artifact@v3
+        with:
+          name: badge-statements.svg
+          path: .public/badge-statements.svg
