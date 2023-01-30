@@ -9,11 +9,10 @@ jobs:
       - uses: actions/setup-node@v3
 
       - uses: actions/cache@v2
-        id: npm-cache
         with:
           path: |
             **/node_modules
-
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm install
         
