@@ -11,13 +11,17 @@ jobs:
       - name: Install dependencies
         run: npm install
         
-  run_tests:
+  run_coverage_tests:
+    needs:
+      - install_dependencies
     runs-on: ubuntu-latest
     steps:
       - name: Run coverage tests
         run: npm run test:ci
                   
   create_badges:
+    needs:
+      - run_coverage_tests
     runs-on: ubuntu-latest
     steps:
       - run: npm install jest-coverage-badges
