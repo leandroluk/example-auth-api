@@ -1,8 +1,6 @@
 name: Node.js CI
 
-on:
-  push:
-  pull_request:
+on: [push]
 
 jobs:
   build:
@@ -26,14 +24,14 @@ jobs:
       - name: Run tests and output badges
         run: |
           npm run test:ci
-          npx jest-coverage-badges input "./.coverage/coverage-summary.json" output "./.public"  
+          npx jest-coverage-badges input "./.coverage/coverage-summary.json" output ".public"  
       
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
           name: coverage-badges
           path: |
-            "./.public/badge-branches.svg"
-            "./.public/badge-functions.svg"
-            "./.public/badge-lines.svg"
-            "./.public/badge-statements.svg"
+            .public/badge-branches.svg
+            .public/badge-functions.svg
+            .public/badge-lines.svg
+            .public/badge-statements.svg
