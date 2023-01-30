@@ -1,40 +1,25 @@
 on: [push]
 
 jobs:
-  install_dependencies:
+  run_tests_and_create_badges:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-
-      - uses: actions/cache@v2
-        with:
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-      - name: Install dependencies
-        run: npm install
         
-  run_coverage_tests:
-    needs:
-      - install_dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run coverage tests
+      - uses: actions/setup-node@v3
+        
+      - name: install dependencies
+        run: npm install
+
+      - name: run coverage tests
         run: npm run test:ci
-                  
-  create_badges:
-    needs:
-      - run_coverage_tests
-    runs-on: ubuntu-latest
-    steps:
-      - run: npm install jest-coverage-badges
 
-      - name: building coverage badges
-        run: npx jest-coverage-badges input "./.coverage/coverage-summary.json" output "./.public"  
+      - name: creating badges
+        run: |
+          npm install jest-coverage-badges
+          npx jest-coverage-badges input "./.coverage/coverage-summary.json" output "./.public"  
 
-      - name: commiting badges
+      - name: commit badges
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
@@ -46,6 +31,7 @@ jobs:
             echo "::set-output name=push::true"
           fi
         shell: bash
+
       - name: push badges
         if: steps.commit.outputs.push == 'true'
         uses: ad-m/github-push-action@master
