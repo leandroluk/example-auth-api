@@ -16,27 +16,3 @@ jobs:
 
       - name: run coverage tests
         run: npm run test:ci
-
-      - name: creating badges
-        run: |
-          npm install jest-coverage-badges
-          npx jest-coverage-badges input "./.coverage/coverage-summary.json" output "./.public"  
-
-      - name: commit badges
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "github-actions"
-          git add ./.public/badge-*.svg
-          if [-z "$(git status --porcelain)"]; then
-            echo "::set-output name=push::false"
-          else
-            git commit -m "Add changes" -a
-            echo "::set-output name=push::true"
-          fi
-        shell: bash
-
-      - name: push badges
-        if: steps.commit.outputs.push == 'true'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
