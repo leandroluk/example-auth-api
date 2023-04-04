@@ -22,7 +22,7 @@ export const refreshTokenFactory = (): RefreshTokenUseCase => {
       verifyJwtTokenAdapter
     );
     const unauthorizedError = new UnauthorizedError();
-    const forbiddenErrro = new ForbiddenError();
+    const forbiddenError = new ForbiddenError();
     const getUserAuthRepo = new GetUserAuthRepoImpl();
     const getUserAuthTask = new GetUserAuthTaskImpl(
       getUserAuthRepo,
@@ -33,7 +33,7 @@ export const refreshTokenFactory = (): RefreshTokenUseCase => {
     const getUserTask = new GetUserTaskImpl(
       getUserRepo,
       unauthorizedError,
-      forbiddenErrro
+      forbiddenError
     );
     const createJwtTokenAdapter = new CreateJwtTokenAdapterImpl();
     const createBearerAuthTask = new CreateBearerAuthTaskImpl(
