@@ -3,7 +3,7 @@
 ![](https://raw.githubusercontent.com/leandroluk/example-auth-api/master/.public/badge-functions.svg) 
 ![](https://raw.githubusercontent.com/leandroluk/example-auth-api/master/.public/badge-statements.svg)
 
-# api-auth-caas-2.0
+# example-auth-api
 
 Proposta de reformulação da api-auth-caas utilizando os princípios do Clean Code e SOLID sem restringir a utilização de bibliotecas que auxiliam no desenvolvimento. 
 
